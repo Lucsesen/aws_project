@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockMaster</title>
+  <!-- Link para o arquivo CSS personalizado -->
+  <link rel="stylesheet" href="./css/style.css">
+  <!-- Font Awesome CDN para os ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="./js/script.js" defer></script>
+</head>
+<body>
+  <header>
+    Bem vindo ao Sistema de Gestão StockMaster
+  </header>
+
+  <main>
+    <section class="addForm">
+        <h3>Cadastrar produto</h3>
+      <form action="">
+        <input type="numer" for="id" id="id" hidden>
+        <label for="name" >Nome do produto</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="quantity" >Quantidade do item</label><br>
+        <input type="number" id="quantity" name="quantity">
+        <button type="submit" class="submitButton">Enviar</button>
+      </form>   
+    </section>
+
+    <section class="productsTable">
+        <h3>Produtos Cadastrados</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Descrição do produto</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </section>
+    <div id="notification" class="notification">
+      
+    </div>
+  </main>
+  
+  <footer>
+    <p>@2025 Direitos reservados à Lucas Rangel, <a href="https://github.com/Lucsesen" target="_blank">clique aqui</a> para acessar o GitHub</p>
+    <img src="https://cdn.freelogovectors.net/wp-content/uploads/2023/07/github-logo-freelogovectors.net_.png" alt="GitHub Logo">
+  </footer>
+</body>
+</html>

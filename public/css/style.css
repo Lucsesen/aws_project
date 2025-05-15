@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    box-sizing: content-box;
+}
+
+:root {
+    --cor-fundo: #2A2927;
+    --cor-fonte: white;
+    --cor-destaque: #2DAAFF;
+    --dark: #1d1d1bcb;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-fonte);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+header {
+    background-color: var(--dark);
+    color: var(--cor-destaque);
+    min-height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+}
+
+footer {
+    position: absolute;
+    width: 100vw;
+    bottom: 1%;
+    text-align: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    max-height: 10vh;
+    font-size: 1rem;
+    letter-spacing: 0.12rem;
+}
+
+footer img {
+    width: 3rem;
+}
+
+footer a {
+    text-decoration: none;
+    color: var(--cor-destaque);
+}
+
+/* Estilos gerais para os botões de ação na tabela */
+.edit-btn,
+.delete-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin: 0 5px;
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.edit-btn {
+    color: #4CAF50;
+    /* Verde */
+}
+
+.edit-btn:hover {
+    color: #388E3C;
+    transform: scale(1.1);
+}
+
+.delete-btn {
+    color: #F44336;
+    /* Vermelho */
+}
+
+.delete-btn:hover {
+    color: #D32F2F;
+    transform: scale(1.1);
+}
+
+h3 {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 3rem 0;
+    gap: 5vw;
+}
+
+.addForm {
+    background: var(--dark);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 26vw;
+    max-height: 30vh;
+}
+
+.addForm form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.4rem;
+}
+
+label {
+    font-size: 1.2rem;
+    width: 80%;
+    color: var(--cor-fonte);
+    text-align: left;
+}
+
+input {
+    padding: 10px;
+    border: 2px solid var(--cor-destaque);
+    background-color: transparent;
+    color: var(--cor-fonte);
+    border-radius: 5px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+input[type="text"] {
+    width: 100%;
+}
+
+form input:first {
+    width: 500px;
+}
+
+input:focus {
+    outline: none;
+    animation: rotateColor 3s linear infinite;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--cor-destaque);
+    color: var(--cor-fonte);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+form button {
+    margin-left: auto;
+    width: auto;
+    min-width: 25%;
+}
+
+
+form button:hover {
+    background-color: #216a9e;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+@keyframes rotateColor {
+    0% {
+        border-color: #2DAAFF;
+    }
+
+    25% {
+        border-color: #FFD700;
+    }
+
+    50% {
+        border-color: #FF6347;
+    }
+
+    75% {
+        border-color: #98FB98;
+    }
+
+    100% {
+        border-color: #2DAAFF;
+    }
+}
+
+.productsTable {
+    background-color: var(--dark);
+    width: 50vw;
+    border: none;
+    border-radius: 10px;
+    padding: 30px;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+    padding: 2rem;
+    border-collapse: collapse;
+}
+
+thead th:first-child,
+tbody tr td:first-child {
+    text-align: left;
+}
+
+th {
+    padding: 1rem 0;
+}
+
+tr td {
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.116);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+tr:hover {
+    transform: scale(1.03);
+    background-color: rgba(45, 170, 255, 0.1);
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    /* Posição próxima à parte inferior */
+    left: -350px;
+    /* Inicia fora da tela (à esquerda) */
+    /* Cor vermelha para indicar exclusão */
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    opacity: 0;
+    transition: left 0.5s ease-out, opacity 0.5s ease-out;
+    z-index: 9999;
+}
+
+/* Classe que exibe a notificação */
+.notification.show {
+    left: 20px;
+    /* Move para a área visível */
+    opacity: 1;
+
+}
+
+@media (max-width:1440px) {
+    .addForm {
+        max-height: 45vh;
+    }
+}
+
+
