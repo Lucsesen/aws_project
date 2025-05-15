@@ -6,7 +6,10 @@ WORKDIR /app
 
 # 3) copia e instala dependências do backend
 COPY backend/package.json backend/package-lock.json* ./
-RUN npm ci --only=production
+
+# instala apenas as deps de produção sem exigir lockfile
+RUN npm install --omit=dev
+
 
 # 4) copia o código backend e a pasta public (frontend já buildado)
 COPY backend/server.js ./
