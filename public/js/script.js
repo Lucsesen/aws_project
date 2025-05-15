@@ -1,7 +1,7 @@
 const submitButton = document.querySelector('.submitButton');
 const form = document.querySelector('form');
 const table = document.querySelector('table');
-const url = 'http://localhost:3000/items'
+const url = '/api/items';
 
 document.addEventListener('DOMContentLoaded', () => {
   fetch(url)

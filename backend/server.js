@@ -3,42 +3,83 @@ import path from 'path';
 import { Pool } from 'pg';
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = parseInt(process.env.PORT || '3001', 10);
 
-// configurações do Postgres via variáveis de ambiente (podem vir do ECS)
 const pool = new Pool({
   host:     process.env.DB_HOST     || 'rds-prova.c0mygcflmcwd.us-east-1.rds.amazonaws.com',
-  port:     process.env.DB_PORT     ? parseInt(process.env.DB_PORT) : 5432,
+  port:     parseInt(process.env.DB_PORT, 10) || 5432,
   user:     process.env.DB_USER     || 'postgres',
   password: process.env.DB_PASSWORD || 'postgres123',
   database: process.env.DB_NAME     || 'aws_db',
 });
 
-// middleware
 app.use(express.json());
 
-// endpoint de healthcheck e teste de conexão ao banco
-app.get('/api/health', async (_req, res) => {
+// Health-check
+app.get('/api/health', (_req, res) => {
+  res.json({ status: 'ok' });
+});
+
+// — CRUD de Item (baseado no seu TS original) —
+
+// Listar
+app.get('/api/items', async (_req, res) => {
   try {
-    const client = await pool.connect();
-    await client.query('SELECT 1');
-    client.release();
-    res.json({ status: 'ok', db: 'connected' });
+    const { rows } = await pool.query('SELECT * FROM "Item" ORDER BY id');
+    res.json(rows);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ status: 'error', message: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
-// TODO: adicione aqui outros endpoints baseados na lógica do seu front-end
+// Criar
+app.post('/api/items', async (req, res) => {
+  const { name, quantity } = req.body;
+  try {
+    const { rows } = await pool.query(
+      'INSERT INTO "Item"(name, quantity) VALUES($1,$2) RETURNING *',
+      [name, quantity]
+    );
+    res.status(201).json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-// serve os arquivos estáticos do front-end
-app.use(express.static(path.resolve('public')));
+// Atualizar
+app.put('/api/items/:id', async (req, res) => {
+  const { id } = req.params, { name, quantity } = req.body;
+  try {
+    const { rows } = await pool.query(
+      'UPDATE "Item" SET name=$1,quantity=$2 WHERE id=$3 RETURNING *',
+      [name, quantity, id]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Not found' });
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Deletar
+app.delete('/api/items/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query('DELETE FROM "Item" WHERE id=$1', [id]);
+    if (result.rowCount===0) return res.status(404).json({ error:'Not found' });
+    res.status(204).end();
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Serve o frontend estático
+const publicDir = path.resolve('public');
+app.use(express.static(publicDir));
 app.get('*', (_req, res) =>
-  res.sendFile(path.resolve('public', 'index.html'))
+  res.sendFile(path.join(publicDir, 'index.html'))
 );
 
-// inicia o servidor
-app.listen(port, () => {
-  console.log(`🚀 Server listening on port ${port}`);
-});
+app.listen(port, () =>
+  console.log(`🚀 Backend+Frontend rodando na porta ${port}`)
+);
